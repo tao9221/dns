@@ -1,0 +1,118 @@
+{% extends "public_base.html" %}
+{%block content%}
+    <section class="list-con" id="sec">
+            <h2 class="title">域名 && zabbix主机</h2>
+                <ul class="table-list">
+                    <li>
+                        <span><a href="{% url 'domain' %}">域名解析</a></span>
+                        <span><a href="{% url 'record' %}">解析记录查询</a></span>
+                        <span><a href="{% url 'dif_hosts' %}">主机报警差异检测</a></span>
+                    </li>
+                </ul>
+    {% if stats == 1 %}
+        <div class="title">域名解析</div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <label>选择域:</label>
+                <select class="form-control" id="domain" name="domain">
+                    {% for d in domains %}
+                    <option value={{ d }}>{{ d }}</option>
+                    {% endfor %}
+                </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <textarea class="form-control" id="dnslist" name="dnslist" rows="8" placeholder="domain.ncfwx.com|A|1.1.1.1"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-4">
+                    <button type="button" class="btn btn-primary" onclick="javascript:window.location.reload()">刷 新 GO</button>
+                    <button type="button" id="ckdns" class="btn btn-success">解 析 GO</button>
+                </div>
+            </div>
+        <div id="dnstitle" class="title"></div>
+        <div class="row">
+            <div class="col-sm-6">
+            <table id="res" class="table table-striped">
+            </table>
+            </div>
+        </div>
+    {% elif stats == 2 %}
+             <div class="title">域名解析记录</div>
+                <div class="row">
+                    <div class="col-sm-10">
+                    <table class="table">
+                        <tr>
+{#                            <td></td>#}
+                            <td></td>
+                            <td><input id="cmds" class="form-control" type="text" placeholder="a.ncfwx.com"></td>
+                            <td><button id="searchs" class="btn btn-primary btn-sm" type="button"> 搜 索 </button></td>
+                        </tr>
+                        <tr class="text-success">
+                            <td>ID</td>
+                            <td>解析命令</td>
+                            <td>操作用户</td>
+                            <td>操作时间</td>
+                        </tr>
+                         <table class="table" id="shows">
+                        {% for re in data %}
+                        <tr id="hidden" class="text-primary" style="display:">
+                            <td>{{ re.id }}</td>
+                            <td>{{ re.domain_cmds }}</td>
+                            <td>{{ re.user }}</td>
+                            <td>{{ re.last_time }}</td>
+                        </tr>
+                        {% endfor %}
+                         </table>
+                    </table>
+                    </div>
+                </div>
+
+                <div id="footerpages" class="table-footer clearfix">
+                <div class="sum fl">共<span>{{total_number}}</span>条数据,当前是第<span>{{page}}</span>页</div>
+                 <div class="page fr">
+                    <a href="{%url 'record'%}">首页</a>
+                    {%for number in page_number%}
+                        {%if number == page%}
+                                  <a href="{%url 'record'%}?page={{number}}"><span class="active">{{number}}</span></a>
+                        {%else%}
+                                     <a href="{%url 'record'%}?page={{number}}"><span>{{number}}</span></a>
+                        {%endif%}
+                    {%endfor%}
+                    <a href="{%url 'record'%}?page={{next_page}}">下一页</a>
+                    <a href="{%url 'record'%}?page={{page_number_last}}">尾页</a>
+                </div>
+    {% elif stats == 3 %}
+             <div class="row">
+                <div class="col-sm-2 title">zabbix VS host</div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary" onclick="javascript:window.location.reload()">比对zabbix VS hosts</button>
+                    <button type="button" id="updates" class="btn btn-success">更新zabbix主机表</button>
+                </div>
+             </div>
+            <div class="row">
+               <div class="col-sm-6">
+                   <div id="pri" class="h3 bg-danger">监控异常主机IP</div>
+                    <table id="ipcontent" class="table table-striped">
+                         {% for ips in ip_list %}
+                            <tr class="text-danger"><td>{{ ips }}</td></tr>
+                         {% endfor %}
+                    </table>
+               </div>
+            </div>
+    {% endif %}
+
+    </section>
+<style>
+  .ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  * html .ui-autocomplete {
+    height: 300px;
+  }
+</style>
+{%endblock%}

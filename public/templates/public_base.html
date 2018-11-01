@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{title}}</title>
+<link rel="shortcut icon"href="/static/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/static/style/base.css">
+<link rel="stylesheet" type="text/css" href="/static/style/common.css">
+<link rel="stylesheet" type="text/css" href="/static/style/list.css">
+<link rel="stylesheet" type="text/css" href="/static/style/jquery-ui.css">
+<script type="text/javascript" src="/static/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/static/js/list.js"></script>
+<script type="text/javascript" src="/static/js/cmd.js"></script>
+<script type="text/javascript" src="/static/js/dns.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/static/js/jquery.blockUI.min.js"></script>
+<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/style/command.css">
+<link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css">
+<!--[if IE]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script type="text/javascript">
+window.onload=window.onresize=function(){
+    var clientH=document.documentElement.clientHeight;
+    var oSec=document.getElementById('sec');
+    var oSideBar=document.getElementById('sideBar');
+    var oHeader=document.getElementById('header');
+    var hH=parseInt(oHeader.offsetHeight);
+    console.log(hH);
+    var h=parseInt(oSec.scrollHeight);
+    if(h<clientH)
+    {
+        oSideBar.style.height=oSec.style.height=clientH-hH+'px';
+        return;
+    }
+    oSideBar.style.height=h+'px';
+}
+</script>
+</head>
+<body>
+<div class="wrap bg-gray">
+    <nav class="header fs16 clearfix" id="header">
+        <div class="row">
+        <div class="col-sm-6">
+            <p style="color:blue">&nbsp&nbsp网信运维管理平台</p>
+        </div>
+        <div class="col-sm-6">
+        <div class="headerRight">
+            <div class="userName">
+                <span>{{username}}</span>
+                <span><a href={%url 'logout'%}>注销</a></span>
+            </div>
+        </div>
+        </div>
+        </div>
+    </nav>
+    <div class="pr">
+        <div class="list-sideBar" id="sideBar">
+            <nav class="list-ul">
+                <li><span></span><a href="{%url 'hlist'%}">主机管理</a></li>
+                <li><span></span><a href="{%url 'ulist'%}">用户管理</a></li>
+                <li><span></span><a href="{%url 'cmd'%}">远程执行命令</a></li>
+                <li><span></span><a href="{%url 'cron'%}">定时任务</a></li>
+                <li><span></span><a href="{%url 'modules'%}">任务模块</a></li>
+                <li><span></span><a href="{%url 'network'%}">网络系统</a></li>
+                <li><span></span><a href="{%url 'ansible'%}">批处理任务</a></li>
+                <li><span></span><a href="{% url 'domain' %}">域名解析</a></li>
+            </nav>
+        </div>
+
+
+        {% block content %}
+        <section class="list-con" id="sec">
+            <div style="text-align:center; color: blue">
+Welcome to the Operation and Maintenance Platform from NCFWX by System Group
+            </div>
+        </section>
+        {% endblock %}
+        
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+  p = window.location.pathname;
+  //p = window.location.href;
+  $(".list-ul").find("li").each(function (i, k) {
+      var c = $(k).find("a")[0].pathname;
+      if(c === p){
+          k.className = "active";
+          return false;
+      }
+  })
+</script>
+</html>
+

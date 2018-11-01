@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{title}}</title>
+<link rel="shortcut icon"href="/static/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/static/style/base.css">
+<link rel="stylesheet" type="text/css" href="/static/style/common.css">
+<link rel="stylesheet" type="text/css" href="/static/style/list.css">
+<script type="text/javascript" src="/static/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/static/js/list.js"></script>
+<script type="text/javascript" src="/static/js/cmd.js"></script>
+<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/style/command.css">
+<link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css">
+<!--[if IE]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script type="text/javascript">
+window.onload=window.onresize=function(){
+    var clientH=document.documentElement.clientHeight;
+    var oSec=document.getElementById('sec');
+    var oSideBar=document.getElementById('sideBar');
+    var oHeader=document.getElementById('header');
+    var hH=parseInt(oHeader.offsetHeight);
+    console.log(hH);
+    var h=parseInt(oSec.scrollHeight);
+    if(h<clientH)
+    {
+        oSideBar.style.height=oSec.style.height=clientH-hH+'px';
+        return;
+    }
+    oSideBar.style.height=h+'px';
+}
+</script>
+</head>
+<body>
+<div class="panel panel-default">
+  <div class="panel-heading">{{title|default:"内容"}}</div>
+  <div class="panel-body" id="b-content">
+    {{bcontent|default:""}}
+  </div>
+  <table class="table" id="t-content">
+    {{tcontent|default:""}}
+  </table>
+</div>
+
+</body>
+</html>
